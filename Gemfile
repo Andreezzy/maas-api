@@ -6,6 +6,9 @@ ruby "3.1.2"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1.7'
 
+# Use Json Web Token (JWT) for token based authentication
+gem 'jwt'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
 
