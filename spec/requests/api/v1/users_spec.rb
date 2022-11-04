@@ -1,10 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
-  describe "GET /index" do
-    it 'lists all the users' do
-      get '/api/v1/users'
-      expect(response.status).to eq(401)
+RSpec.describe 'api/v1/users', type: :request do
+  let(:user) { create(:user) }
+  let(:token) { JsonWebToken.encode({ id: user.id }) }
+
+  describe 'GET /create' do
+    it 'returns http status success' do
+      get '/api/v1/users', headers: { 'Authorization': "Bearer #{token}" }
+      expect(response).to have_http_status(:success)
     end
   end
 end
