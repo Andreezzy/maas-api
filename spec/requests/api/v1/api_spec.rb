@@ -22,7 +22,7 @@ RSpec.describe 'api/v1/', type: :request do
           expect(response).to have_http_status(:success)
         end
         it 'returns a payload with the user email' do
-          expect(body['data']['email']).to eq(user.email)
+          expect(body['user']['email']).to eq(user.email)
         end
       end
 

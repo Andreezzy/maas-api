@@ -8,7 +8,7 @@ module Api
       def check_jwt
         render json: {
           message: 'authenticated',
-          data: @current_user
+          user: @current_user
         }, status: :ok
       end
     end
