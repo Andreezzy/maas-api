@@ -20,7 +20,7 @@ RSpec.describe 'api/v1/sessions', type: :request do
           expect(response).to have_http_status(:success)
         end
         it 'returns a payload with the user email' do
-          expect(body['email']).to eq(user.email)
+          expect(body['user']['email']).to eq(user.email)
         end
         it 'returns a payload with the user token' do
           expect(body['token']).not_to be_empty
