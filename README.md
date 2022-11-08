@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+Commands to run the project:
+
+`docker-compose up -d`
+`docker-compose exec web bin/rails db:create db:migrate`
