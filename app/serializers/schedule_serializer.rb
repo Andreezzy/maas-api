@@ -1,5 +1,7 @@
 class ScheduleSerializer < Panko::Serializer
-  attributes :id, :name, :company_id, :validRange, :slotMinTime, :slotMaxTime, :businessHours
+  attributes :id, :name, :company_id, :validRange, :slotMinTime, :slotMaxTime
+
+  has_many :business_hours, serializer: BusinessHourSerializer, name: :businessHours
 
   def name
     "Semana ##{object.start_date.strftime('%U').to_i}"
@@ -18,9 +20,5 @@ class ScheduleSerializer < Panko::Serializer
 
   def slotMaxTime
     object.max_time.strftime('%H:%M:%S')
-  end
-
-  def businessHours
-    []
   end
 end
