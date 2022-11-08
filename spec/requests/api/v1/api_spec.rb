@@ -11,7 +11,7 @@ RSpec.describe 'api/v1/', type: :request do
 
     context 'with params' do
       let(:user) { create(:user) }
-      let(:token) { JsonWebToken.encode({ id: user.id }) }
+      let(:token) { JsonWebToken.encode({ user_id: user.id }) }
 
       context 'with valid token' do
         let(:body) { JSON.parse(response.body) }

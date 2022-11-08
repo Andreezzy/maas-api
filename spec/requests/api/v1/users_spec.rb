@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'api/v1/users', type: :request do
   let(:user) { create(:user) }
-  let(:token) { JsonWebToken.encode({ id: user.id }) }
+  let(:token) { JsonWebToken.encode({ user_id: user.id }) }
 
   describe 'GET /create' do
     it 'returns http status success' do

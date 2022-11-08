@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'api/v1/companies', type: :request do
   let(:user) { create(:user) }
-  let(:token) { JsonWebToken.encode({ id: user.id }) }
+  let(:token) { JsonWebToken.encode({ user_id: user.id }) }
 
   let(:valid_attributes) {{
     name: 'Recorrido',
