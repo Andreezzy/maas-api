@@ -1,5 +1,6 @@
 class Schedule < ApplicationRecord
   belongs_to :company
+  has_many :business_hours
 
   validates :start_date, presence: true
   validates :end_date, presence: true
