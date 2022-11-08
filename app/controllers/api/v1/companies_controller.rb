@@ -5,9 +5,10 @@ module Api
 
       # GET /companies
       def index
-        @companies = Company.all
+        @companies = Company.all.includes(:schedules)
 
-        render json: @companies
+        # render json: @companies
+        render json: Panko::ArraySerializer.new(@companies, each_serializer: CompanySerializer).to_json
       end
 
       # GET /companies/1
