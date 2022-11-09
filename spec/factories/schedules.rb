@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :schedule do
-    company { nil }
-    start_date { "2022-11-08" }
-    end_date { "2022-11-08" }
-    min_time { "2022-11-08 06:11:12" }
-    max_time { "2022-11-08 06:11:12" }
+    company { create(:company) }
+    start_date { Date.new(2022,11,10).beginning_of_week(:sunday) }
+    end_date { Date.new(2022,11,10).end_of_week }
+    min_time { Time.new(0,1,1,8) }
+    max_time { Time.new(0,1,1,18) }
   end
 end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :companies
+      resources :events
       resources :sessions, only: :create
       get :check_jwt, to: 'api#check_jwt'
     end
