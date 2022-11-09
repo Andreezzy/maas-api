@@ -5,9 +5,13 @@ module Api
 
       # GET events
       def index
-        @events = Event.all
+        load_events = Events::LoadEvents.new(params[:schedule_id], @current_user.id)
 
-        render json: @events
+        render json: Panko::Response.new(
+          all_drafts: Panko::ArraySerializer.new(load_events.all_drafts, each_serializer: EventSerializer),
+          my_drafts: Panko::ArraySerializer.new(load_events.my_drafts, each_serializer: EventSerializer),
+          all_published: Panko::ArraySerializer.new(load_events.all_published, each_serializer: EventSerializer)
+        )
       end
 
       # GET events/1
