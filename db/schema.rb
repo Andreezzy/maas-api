@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_154250) do
 
   create_table "events", force: :cascade do |t|
     t.bigint "schedule_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "kind"
     t.datetime "start_time"
     t.datetime "end_time"
