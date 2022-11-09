@@ -1,5 +1,5 @@
 class EventSerializer < Panko::Serializer
-  attributes :id, :title, :start, :end, :backgroundColor, :borderColor, :user_id, :schedule_id
+  attributes :id, :title, :kind, :start, :end, :backgroundColor, :borderColor, :user_id, :schedule_id
 
   def title
     object.user ? object.user.name : '⚠️'
