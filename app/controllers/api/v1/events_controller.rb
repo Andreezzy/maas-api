@@ -2,15 +2,14 @@ module Api
   module V1
     class EventsController < Api::V1::ApiController
       before_action :set_event, only: %i[ show update destroy ]
+      before_action :set_event_handler, only: %i[ index create ]
 
       # GET events
       def index
-        load_events = Events::LoadEvents.new(params[:schedule_id], @current_user.id)
-
         render json: Panko::Response.new(
-          all_drafts: Panko::ArraySerializer.new(load_events.all_drafts, each_serializer: EventSerializer),
-          my_drafts: Panko::ArraySerializer.new(load_events.my_drafts, each_serializer: EventSerializer),
-          all_published: Panko::ArraySerializer.new(load_events.all_published, each_serializer: EventSerializer)
+          all_drafts: Panko::ArraySerializer.new(@event_handler.all_drafts, each_serializer: EventSerializer),
+          my_drafts: Panko::ArraySerializer.new(@event_handler.my_drafts, each_serializer: EventSerializer),
+          all_published: Panko::ArraySerializer.new(@event_handler.all_published, each_serializer: EventSerializer)
         )
       end
 
@@ -21,13 +20,15 @@ module Api
 
       # POST events
       def create
-        @event = Event.new(event_params)
-
-        if @event.save
-          render json: @event, status: :created
-        else
-          render json: @event.errors, status: :unprocessable_entity
-        end
+        Events::CreateInBunch.new(events_params, params[:schedule_id], @current_user.id).call
+        # Event::SortPublishedEvents.new.call
+        render json: Panko::Response.new(
+          all_drafts: Panko::ArraySerializer.new(@event_handler.all_drafts, each_serializer: EventSerializer),
+          my_drafts: Panko::ArraySerializer.new(@event_handler.my_drafts, each_serializer: EventSerializer),
+          all_published: Panko::ArraySerializer.new(@event_handler.all_published, each_serializer: EventSerializer)
+        )
+      rescue ActiveRecord::RecordInvalid => e
+        render json: e, status: :unprocessable_entity
       end
 
       # PATCH/PUT events/1
@@ -45,6 +46,14 @@ module Api
       end
 
       private
+
+      def set_event_handler
+        @event_handler = Events::EventHandler.new(params[:schedule_id], @current_user.id)
+      end
+
+      def events_params
+        params.permit(events: %i[schedule_id user_id kind start_time end_time]).require(:events)
+      end
 
       # Use callbacks to share common setup or constraints between actions.
       def set_event

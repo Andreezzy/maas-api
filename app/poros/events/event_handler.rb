@@ -1,5 +1,5 @@
 module Events
-  class LoadEvents
+  class EventHandler
     def initialize(schedule_id, user_id)
       @schedule_id = schedule_id
       @user_id = user_id
