@@ -64,3 +64,8 @@ There are two kind of events:
 ```
 Events::SortPublishedEvents.new(:schedule_id).call
 ```
+
+The solution was implemented applying 3 principles:
+- First fill the events that no one has taken with an Event with null id_user
+- Then fill all the Events that do not have collisions, Events that nobody else took the same time
+- Finally evaluate collisions by checking a user's hour counter, assigning the Event to the user with fewer hours
