@@ -21,7 +21,7 @@ module Api
       # POST events
       def create
         Events::CreateInBunch.new(events_params, params[:schedule_id], @current_user.id).call
-        # Event::SortPublishedEvents.new.call
+        Events::SortPublishedEvents.new(params[:schedule_id]).call
         render json: Panko::Response.new(
           all_drafts: Panko::ArraySerializer.new(@event_handler.all_drafts, each_serializer: EventSerializer),
           my_drafts: Panko::ArraySerializer.new(@event_handler.my_drafts, each_serializer: EventSerializer),
