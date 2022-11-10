@@ -1,7 +1,7 @@
 class Schedule < ApplicationRecord
   belongs_to :company
-  has_many :events
-  has_many :business_hours
+  has_many :events, dependent: :destroy
+  has_many :business_hours, dependent: :destroy
 
   validates :start_date, presence: true
   validates :end_date, presence: true
