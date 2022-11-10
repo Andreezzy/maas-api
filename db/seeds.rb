@@ -21,6 +21,8 @@ time_at_23 = Time.new(0, 1, 1, 23) # 20:00
 
 schedule1_1 = Schedule.create!(company_id: company1.id, start_date: date_at_11_08, end_date: date_at_11_08.end_of_week, min_time: time_at_06, max_time: time_at_20)
 schedule2_1 = Schedule.create!(company_id: company2.id, start_date: date_at_11_08, end_date: date_at_11_08.end_of_week, min_time: time_at_10, max_time: time_at_23)
+schedule3_1 = Schedule.create!(company_id: company3.id, start_date: date_at_11_08, end_date: date_at_11_08.end_of_week, min_time: time_at_06, max_time: time_at_20)
+schedule4_1 = Schedule.create!(company_id: company4.id, start_date: date_at_11_08, end_date: date_at_11_08.end_of_week, min_time: time_at_06, max_time: time_at_20)
 
 # Generate next 4 weeks
 next_4_weeks_of_company1 = []
@@ -53,17 +55,16 @@ next_4_weeks_of_company1.each do |schedule|
   end
 end
 
-# Available days for schedule2_1 of company2 | Betterfly
-monday_friday.each do |day|
-  BusinessHour.create!(schedule_id: schedule2_1.id, day_of_week: day, start_time: time_at_10, end_time: time_at_23)
+# Available days for schedule2_1, schedule4_1, schedule4_1
+[schedule2_1, schedule3_1, schedule4_1].each do |schedule|
+  monday_friday.each do |day|
+    BusinessHour.create!(schedule_id: schedule.id, day_of_week: day, start_time: time_at_10, end_time: time_at_23)
+  end
+  weekend.each do |day|
+    BusinessHour.create!(schedule_id: schedule.id, day_of_week: day, start_time: time_at_06, end_time: time_at_17)
+  end
 end
-weekend.each do |day|
-  BusinessHour.create!(schedule_id: schedule2_1.id, day_of_week: day, start_time: time_at_06, end_time: time_at_17)
-end
-
-# schedule2_1 = Schedule.create(company_id: company2.id, start_date: '', end_date: '', min_time: '', max_time: '')
-# schedule3_1 = Schedule.create(company_id: company3.id, start_date: '', end_date: '', min_time: '', max_time: '')
-# schedule4_1 = Schedule.create(company_id: company4.id, start_date: '', end_date: '', min_time: '', max_time: '')
+# Events
 
 # kind { 0: draft, 1: published }
 # draft Events for schedule schedule1_1
