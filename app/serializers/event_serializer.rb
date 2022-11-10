@@ -14,6 +14,6 @@ class EventSerializer < Panko::Serializer
   end
 
   def color
-    object.user ? object.user.color : '#FF0000'
+    object.user ? object.user.color : '#FF8787'
   end
 end
