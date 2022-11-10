@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "/api/v1/events", type: :request do
   let(:user) { create(:user) }
   let(:token) { JsonWebToken.encode({ user_id: user.id }) }
-  let(:schedule) { create(:schedule) }
+  let(:schedule) { create(:schedule_with_business_hours) }
 
   let(:valid_attributes) {{
     schedule_id: schedule.id,
@@ -42,13 +42,13 @@ RSpec.describe "/api/v1/events", type: :request do
       it "creates a new Event" do
         expect {
           post api_v1_events_url,
-               params: { event: valid_attributes }, headers: valid_headers, as: :json
-        }.to change(Event, :count).by(1)
+               params: { events: [valid_attributes], schedule_id: schedule.id }, headers: valid_headers, as: :json
+        }.to change(Event, :count)
       end
 
       it "renders a JSON response with the new event" do
         post api_v1_events_url,
-             params: { event: valid_attributes }, headers: valid_headers, as: :json
+             params: { events: valid_attributes, schedule_id: schedule.id }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -58,13 +58,13 @@ RSpec.describe "/api/v1/events", type: :request do
       it "does not create a new Event" do
         expect {
           post api_v1_events_url,
-               params: { event: invalid_attributes }, as: :json
+               params: { events: [invalid_attributes], schedule_id: schedule.id }, as: :json
         }.to change(Event, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new event" do
         post api_v1_events_url,
-             params: { event: invalid_attributes }, headers: valid_headers, as: :json
+             params: { events: [invalid_attributes], schedule_id: schedule.id }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end

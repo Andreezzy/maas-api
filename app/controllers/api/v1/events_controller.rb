@@ -26,7 +26,7 @@ module Api
           all_drafts: Panko::ArraySerializer.new(@event_handler.all_drafts, each_serializer: EventSerializer),
           my_drafts: Panko::ArraySerializer.new(@event_handler.my_drafts, each_serializer: EventSerializer),
           all_published: Panko::ArraySerializer.new(@event_handler.all_published, each_serializer: EventSerializer)
-        )
+        ), status: :created
       rescue ActiveRecord::RecordInvalid => e
         render json: e, status: :unprocessable_entity
       end
