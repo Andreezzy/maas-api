@@ -5,6 +5,8 @@ module Events
     end
 
     def call
+      return unless business_hours.any?
+
       clear_published_events
       assign_events_with_no_collisions
       assign_events_with_collisions
